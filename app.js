@@ -15,10 +15,8 @@ const flash=require("connect-flash");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const User=require("./models/user.js");
+const helmet = require('helmet');
 
-
-// connection established
-// const MONGO_URL="mongodb://127.0.0.1:27017/wanderlust";
 const dbUrl=process.env.ATLASDB_URL;
 
 main()
@@ -64,9 +62,15 @@ const sessionOptions={
     },
 };
 
-// app.get("/",(req,res)=>{
-//     res.send("Hi, I am root");
-// });
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], // Allow resources from the same origin
+      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allow fonts from gstatic
+      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allow Google Fonts styles
+      scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts (if necessary)
+      // Add other necessary sources, such as for images, APIs, etc.
+    }
+  }));
 
 app.use(session(sessionOptions));
 app.use(flash());
