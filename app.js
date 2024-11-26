@@ -62,15 +62,23 @@ const sessionOptions={
     },
 };
 
+// Content Security Policy configuration to allow external resources
 app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],  // Allow loading resources only from the same origin
-    fontSrc: ["'self'", "https://fonts.gstatic.com"],  // Allow fonts from Google
-    styleSrc: ["'self'", "https://fonts.googleapis.com"],  // Allow styles from Google Fonts
-    scriptSrc: ["'self'"],  // Allow scripts from the same origin
-    // Add other necessary directives for your app
-  }
-}));
+    directives: {
+      defaultSrc: ["'self'"],  // Allow resources only from the same origin
+      fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],  // Allow FontAwesome and Google Fonts
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://stackpath.bootstrapcdn.com", "https://cdn.jsdelivr.net"],  // Allow inline styles
+      scriptSrc: ["'self'", "https://code.jquery.com", "https://cdn.jsdelivr.net", "https://stackpath.bootstrapcdn.com"],  // Allow external scripts
+      imgSrc: ["'self'", "data:", "https://cdnjs.cloudflare.com"],  // Allow images from same origin and external sources
+      connectSrc: ["'self'"],  // Allow connections to the same origin
+      frameSrc: ["'none'"],  // Disallow embedding the site in iframes
+      objectSrc: ["'none'"],  // Disallow object embedding
+      upgradeInsecureRequests: []  // Optional: Upgrade HTTP to HTTPS for all resources
+    }
+  }));
+  
+
+
 
   
 
