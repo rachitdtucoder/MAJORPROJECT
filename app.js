@@ -67,8 +67,8 @@ app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],  // Allow resources only from the same origin
       fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],  // Allow FontAwesome and Google Fonts
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://stackpath.bootstrapcdn.com", "https://cdn.jsdelivr.net"],  // Allow inline styles
-      scriptSrc: ["'self'", "https://code.jquery.com", "https://cdn.jsdelivr.net", "https://stackpath.bootstrapcdn.com"],  // Allow external scripts
+      styleSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://stackpath.bootstrapcdn.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],  // Allow inline styles (not recommended for security reasons)
+      scriptSrc: ["'self'", "https://code.jquery.com", "https://cdn.jsdelivr.net", "https://stackpath.bootstrapcdn.com", "'unsafe-inline'"],  // Allow inline scripts (not recommended for security reasons)
       imgSrc: ["'self'", "data:", "https://cdnjs.cloudflare.com"],  // Allow images from same origin and external sources
       connectSrc: ["'self'"],  // Allow connections to the same origin
       frameSrc: ["'none'"],  // Disallow embedding the site in iframes
@@ -76,6 +76,7 @@ app.use(helmet.contentSecurityPolicy({
       upgradeInsecureRequests: []  // Optional: Upgrade HTTP to HTTPS for all resources
     }
   }));
+  
   
 
 

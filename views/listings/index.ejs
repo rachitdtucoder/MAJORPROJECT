@@ -1,42 +1,5 @@
 <% layout("layouts/boilerplate") %>
 <body>
-    <!-- <h1>ALL LISTINGS</h1> -->
-     <style>
-        #filters{
-            display: flex;
-            flex-wrap:wrap;
-            align-items: center;
-        }
-        .filter{
-            text-align:center;
-            margin-right: 2rem;
-            margin-top: 2rem;
-            opacity: 0.7;
-        }
-        .filter:hover{
-            opacity: 1;
-            cursor: pointer;
-        }
-        .filter p{
-            font-size: 0.8rem;
-        }
-        .tax-info{
-            display: none;
-        }
-        .tax-toggle{
-            border: 1px solid rgb(232, 224, 224);
-            border-radius: 1rem;
-            height: 3rem;
-            padding: 1rem;
-            margin-left: 3rem;
-            display: flex;
-            align-items: center;
-        }
-        .tax-toggle:hover{
-            border: 1px solid black;
-        }
-     </style>
-
      <div id="filters">
         <div class="filter" onclick="location.href='/listings?category=Trending'">
             <div><i class="fa-solid fa-fire"></i></div>
@@ -131,20 +94,6 @@
             </div>
         <% } %>
     </div>
-
-<script>
-    let taxSwitch=document.getElementById("flexSwitchCheckDefault");
-    taxSwitch.addEventListener("click",()=>{
-        let taxInfo=document.getElementsByClassName("tax-info");
-        for(info of taxInfo){
-            if(info.style.display!="inline"){
-                info.style.display="inline";
-            }else{
-                info.style.display="none";
-            }
-        }
-    });
-</script>
 
 </body>
 
