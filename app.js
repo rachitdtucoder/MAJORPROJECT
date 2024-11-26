@@ -15,7 +15,6 @@ const flash=require("connect-flash");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const User=require("./models/user.js");
-const helmet = require('helmet');
 
 const dbUrl=process.env.ATLASDB_URL;
 
@@ -62,26 +61,7 @@ const sessionOptions={
     },
 };
 
-// Content Security Policy configuration to allow external resources
-app.use(helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],  // Allow resources only from the same origin
-      fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],  // Allow FontAwesome and Google Fonts
-      styleSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://stackpath.bootstrapcdn.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],  // Allow inline styles (not recommended for security reasons)
-      scriptSrc: ["'self'", "https://code.jquery.com", "https://cdn.jsdelivr.net", "https://stackpath.bootstrapcdn.com", "'unsafe-inline'"],  // Allow inline scripts (not recommended for security reasons)
-      imgSrc: ["'self'", "data:", "https://cdnjs.cloudflare.com"],  // Allow images from same origin and external sources
-      connectSrc: ["'self'"],  // Allow connections to the same origin
-      frameSrc: ["'none'"],  // Disallow embedding the site in iframes
-      objectSrc: ["'none'"],  // Disallow object embedding
-      upgradeInsecureRequests: []  // Optional: Upgrade HTTP to HTTPS for all resources
-    }
-  }));
-  
-  
 
-
-
-  
 
 app.use(session(sessionOptions));
 app.use(flash());
