@@ -63,14 +63,16 @@ const sessionOptions={
 };
 
 app.use(helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"], // Allow resources from the same origin
-      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allow fonts from gstatic
-      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allow Google Fonts styles
-      scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts (if necessary)
-      // Add other necessary sources, such as for images, APIs, etc.
-    }
-  }));
+  directives: {
+    defaultSrc: ["'self'"],  // Allow loading resources only from the same origin
+    fontSrc: ["'self'", "https://fonts.gstatic.com"],  // Allow fonts from Google
+    styleSrc: ["'self'", "https://fonts.googleapis.com"],  // Allow styles from Google Fonts
+    scriptSrc: ["'self'"],  // Allow scripts from the same origin
+    // Add other necessary directives for your app
+  }
+}));
+
+  
 
 app.use(session(sessionOptions));
 app.use(flash());
