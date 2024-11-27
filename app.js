@@ -64,12 +64,14 @@ const sessionOptions={
 app.use((req, res, next) => {
     res.setHeader('Content-Security-Policy', 
     "default-src 'self'; " +
-    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;"+
     "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
     "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com https://stackpath.bootstrapcdn.com; " +
     "img-src 'self' data: https://res.cloudinary.com;");
     next();
 });
+
+
 
 
 
@@ -94,15 +96,6 @@ app.use((req,res,next)=>{
     next();
 });
 
-// app.get("/demouser", async(req,res)=>{
-//     let fakeUser=new User({
-//         email:"student@gmail.com",
-//         username:"delta-student"
-//     });
-
-//     let registeredUser=await User.register(fakeUser, "helloworld");
-//     res.send(registeredUser);
-// });
 
 app.use("/listings", listingsRoute);
 app.use("/listings/:id/reviews", reviewsRoute);
