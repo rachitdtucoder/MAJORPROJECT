@@ -16,6 +16,7 @@ const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const User=require("./models/user.js");
 
+
 const dbUrl=process.env.ATLASDB_URL;
 
 main()
@@ -61,24 +62,6 @@ const sessionOptions={
     },
 };
 
-app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy', 
-    "default-src 'self'; " +
-    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;"+
-    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
-    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com https://stackpath.bootstrapcdn.com; " +
-    "img-src 'self' data: https://res.cloudinary.com;");
-    next();
-});
-
-
-
-
-
-
-
-
-
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -100,6 +83,8 @@ app.use((req,res,next)=>{
 app.use("/listings", listingsRoute);
 app.use("/listings/:id/reviews", reviewsRoute);
 app.use("/", userRoute);
+
+
 
 app.listen(8080,()=>{
     console.log("server is listening to port 8080");

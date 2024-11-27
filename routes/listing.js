@@ -14,7 +14,6 @@ const upload = multer({ storage }); // Use Cloudinary storage from cloudConfig.j
 router.get("/", async (req, res) => {
     const category = req.query.category; // Check if a category is passed as a query parameter
     const searchQuery = req.query.country; // Check for search query
-    try {
         let allListings = []; // Initialize as an empty array to ensure it's iterable
 
         if (category) {
@@ -30,10 +29,6 @@ router.get("/", async (req, res) => {
 
         // Render the listings page
         res.render("listings/index.ejs", { allListings });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Server error");
-    }
 });
 
 // new route
