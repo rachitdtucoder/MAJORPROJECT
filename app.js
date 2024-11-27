@@ -45,7 +45,7 @@ const store=MongoStore.create({
     touchAfter:24*3600,
 });
 
-store.on("error",()=>{
+store.on("error",(err)=>{
     console.log("ERROR IN MONGO SESSION STORE", err);
 })
 
@@ -60,6 +60,22 @@ const sessionOptions={
         httpOnly: true,
     },
 };
+
+app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', 
+    "default-src 'self'; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
+    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com https://stackpath.bootstrapcdn.com; " +
+    "img-src 'self' data: https://res.cloudinary.com;");
+    next();
+});
+
+
+
+
+
+
 
 app.use(session(sessionOptions));
 app.use(flash());
