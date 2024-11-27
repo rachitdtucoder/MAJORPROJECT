@@ -80,9 +80,9 @@ app.use((req,res,next)=>{
 });
 
 
-app.use("/listings", listingsRoute);
-app.use("/listings/:id/reviews", reviewsRoute);
-app.use("/", userRoute);
+app.use("/", listingsRoute);
+app.use("/:id/reviews", reviewsRoute);
+app.use("/hogya", userRoute);
 
 
 

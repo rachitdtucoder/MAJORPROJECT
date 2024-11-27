@@ -1,47 +1,47 @@
 <% layout("layouts/boilerplate") %>
 <body>
      <div id="filters">
-        <div class="filter" onclick="location.href='/listings?category=Trending'">
+        <div class="filter" onclick="location.href='/?category=Trending'">
             <div><i class="fa-solid fa-fire"></i></div>
             <p>Trending</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Rooms'">
+        <div class="filter" onclick="location.href='/?category=Rooms'">
             <div><i class="fa-solid fa-bed"></i></div>
             <p>Rooms</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Iconiccities'">
+        <div class="filter" onclick="location.href='/?category=Iconiccities'">
             <div><i class="fa-solid fa-mountain-city"></i></div>
             <p>Iconic cities</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Mountains'">
+        <div class="filter" onclick="location.href='/?category=Mountains'">
             <div><i class="fa-solid fa-mountain"></i></div>
             <p>Mountains</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Castles'">
+        <div class="filter" onclick="location.href='/?category=Castles'">
             <div><i class="fa-brands fa-fort-awesome"></i></div>
             <p>Castles</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Amazingpools'">
+        <div class="filter" onclick="location.href='/?category=Amazingpools'">
             <div><i class="fa-solid fa-person-swimming"></i></div>
             <p>Amazing pools</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Camping'">
+        <div class="filter" onclick="location.href='/?category=Camping'">
             <div><i class="fa-solid fa-campground"></i></div>
             <p>Camping</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Farms'">
+        <div class="filter" onclick="location.href='/?category=Farms'">
             <div><i class="fa-solid fa-cow"></i></div>
             <p>Farms</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Arctic'">
+        <div class="filter" onclick="location.href='/?category=Arctic'">
             <div><i class="fa-solid fa-snowflake"></i></div>
             <p>Arctic</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Boats'">
+        <div class="filter" onclick="location.href='/?category=Boats'">
             <div><i class="fa-solid fa-sailboat"></i></div>
             <p>Boats</p>
         </div>
-        <div class="filter" onclick="location.href='/listings?category=Towers'">
+        <div class="filter" onclick="location.href='/?category=Towers'">
             <div><i class="fa-solid fa-tower-observation"></i></div>
             <p>Towers</p>
         </div>
@@ -55,7 +55,7 @@
     <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 mt-3">
         <% for (let listing of allListings) { %>
             <div class="card col mb-4 listing">
-                <a href="/listings/<%= listing._id %>" class="listing-link">
+                <a href="/<%= listing._id %>" class="listing-link">
                 <% if (listing.image && listing.image.length > 0) { %>
                     <!-- Carousel for images -->
                     <div id="carousel-<%= listing._id %>" class="carousel slide" data-bs-interval="false">
