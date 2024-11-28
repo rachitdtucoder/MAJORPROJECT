@@ -27,6 +27,11 @@ router.get("/", async (req, res) => {
     res.render("listings/index.ejs", { allListings }); // Render the listings page
 });
 
+// New Listing Form Route
+router.get("/new/add", isLoggedIn, (req, res) => {
+    res.render("listings/new.ejs");
+});
+
 // Show Route (for a single listing)
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
@@ -38,11 +43,6 @@ router.get("/:id", async (req, res) => {
         .populate("owner");
 
     res.render("listings/show.ejs", { listing });
-});
-
-// New Listing Form Route
-router.get("/new", isLoggedIn, (req, res) => {
-    res.render("listings/new.ejs");
 });
 
 // Create Listing Route
