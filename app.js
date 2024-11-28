@@ -80,11 +80,13 @@ app.use((req,res,next)=>{
 });
 
 
-app.use("/", listingsRoute);
-app.use("/:id/reviews", reviewsRoute);
-app.use("/hogya", userRoute);
+app.use("/listings", listingsRoute);
+app.use("/listings/:id/reviews", reviewsRoute);
+app.use("/", userRoute);
 
-
+app.get("/", (req,res)=>{
+    res.redirect("/listings");
+});
 
 app.listen(8080,()=>{
     console.log("server is listening to port 8080");

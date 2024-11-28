@@ -20,7 +20,7 @@ router.post("/signup",async(req,res)=>{
     req.login(registeredUser,(err)=>{
         if(err) return next(err);
         req.flash("success", "Welcome to Wanderlust");
-        res.redirect("/");
+        res.redirect("/listings");
     });
     }
     catch(e){
@@ -35,7 +35,7 @@ router.get("/login",(req,res)=>{
 
 router.post("/login",saveRedirectUrl , passport.authenticate("local",{failureRedirect:'/login', failureFlash: true }), async(req, res)=>{
     req.flash("success", "Welcome back to Wanderlust!");
-    let redirectUrl=res.locals.redirectUrl || "/";  
+    let redirectUrl=res.locals.redirectUrl || "/listings";  
     const method = req.session.method 
     // If the original request was a POST request, redirect to a helper route
     if (method === "POST") {
@@ -44,14 +44,14 @@ router.post("/login",saveRedirectUrl , passport.authenticate("local",{failureRed
     res.redirect(redirectUrl);
 });
 
-router.get("/please/logout", (req, res) => {
+router.get("/logout", (req, res) => {
     req.logout((err) => {
         if (err) {
             console.log("Error during logout", err);
         }
         req.flash("success", "Logged out successfully!");
         // Ensure the redirect here is not appending anything unintended to the URL
-        res.redirect("/");
+        res.redirect("/listings");
     });
 });
 

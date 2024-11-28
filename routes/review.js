@@ -17,7 +17,7 @@ router.post("/", async(req,res)=>{
 
     console.log("new review saved");
     req.flash("success", "New Review Added!");
-    res.redirect(`/${id}`);
+    res.redirect(`/listings/${id}`);
 
 });
 // delete request
@@ -27,7 +27,7 @@ router.post("/:reviewId", async(req,res)=>{
     await Review.findByIdAndDelete(reviewId);
 
     req.flash("success", "Review Deleted!");
-    res.redirect(`/${id}`);
+    res.redirect(`/listings/${id}`);
 
 });
 

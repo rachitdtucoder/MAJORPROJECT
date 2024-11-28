@@ -4,7 +4,7 @@ module.exports.isLoggedIn=(req,res,next)=>{
         req.session.redirectUrl=req.originalUrl;
         req.session.method = req.method; // Save the original HTTP method
         req.flash("error", "You must be logged in before!");
-        return res.redirect("/hogya/login");
+        return res.redirect("/login");
     }
     next();
 };
