@@ -25,8 +25,11 @@ const ListingSchema = new mongoose.Schema({
       type:mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    booked: { type: Boolean, default: false },
-    bookedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    bookedBy: [
+      { type: mongoose.Schema.Types.ObjectId,
+        ref: 'Booked'
+      }
+    ],
     category:{
       type: String,
       enum: ["Trending", "Rooms", "Iconiccities", "Mountains", "Castles", "Amazingpools", "Camping", "Farms", "Arctic", "Boats", "Towers"],

@@ -13,6 +13,20 @@
                 <input name="password"  id="Password"  type="Password" class="form-control" required>
                 <div class="invalid-feedback">Password needed!</div>
             </div>
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <div class="d-flex">
+                    <div class="form-check me-3">
+                        <input type="radio" name="role" id="role-user" value="user" class="form-check-input" required>
+                        <label for="role-user" class="form-check-label">user</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="role" id="role-admin" value="admin" class="form-check-input" required>
+                        <label for="role-admin" class="form-check-label">admin</label>
+                    </div>
+                </div>
+                <div class="invalid-feedback">Please select a role!</div>
+            </div>
             <button class="btn btn-success">Login</button>
         </form>
     </div>

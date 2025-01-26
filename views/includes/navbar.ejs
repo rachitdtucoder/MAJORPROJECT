@@ -18,6 +18,14 @@
     padding: 0.5rem 3rem 0.5rem 3rem;
     font-size: 1rem;
   }
+  .user-photo {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
@@ -39,13 +47,28 @@
         </div>
 
         <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new/add">Airbnb your home</a>
+          <!-- <a class="nav-link" href="/listings/new/add">Airbnb your home</a> -->
           <% if(!currUser){ %>
           <a class="nav-link" href="/signup"><b>Sign up</b></a>
           <a class="nav-link" href="/login"><b>Log in</b></a>
-          <% } %>
-          <% if(currUser){ %>
-          <a class="nav-link" href="/logout"><b>Log out</b></a>
+          <% } else { %>
+            <!-- User Dropdown -->
+            <div class="navbar-nav ms-auto dropdown">
+              <img
+                src="<%= currUser.photo || 'https://i.imgur.com/6VBx3io.png' %>"
+                alt="User"
+                class="user-photo dropdown-toggle"
+                id="userDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer;"
+              />
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" href="/profile">View Profile</a></li>
+                <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+              </ul>
+            </div>
+            
           <% } %>
         </div>
       </div>

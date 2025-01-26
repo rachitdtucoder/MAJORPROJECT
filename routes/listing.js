@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing.js");
+const Booked = require("../models/booked.js");
 const User = require("../models/user.js");
 const { isLoggedIn, loadNotification } = require("../middleware.js");
 const review = require("../models/review.js");
@@ -31,6 +32,74 @@ router.get("/", async (req, res) => {
 router.get("/new/add", isLoggedIn, (req, res) => {
     res.render("listings/new.ejs");
 });
+// Admin Dashboard Route
+router.get("/admin", async (req, res) => {
+    try {
+        // Ensure user is logged in
+        if (!req.user) {
+            req.flash("error", "You need to log in first.");
+            return res.redirect("/login");
+        }
+
+        // Fetch listings created by the currently logged-in user
+        const listings = await Listing.find({ owner: req.user._id });
+
+        res.render("admin/admin.ejs", { listings });
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Failed to load admin dashboard.");
+        res.redirect("/");
+    }
+});
+
+
+// View Applicants for a Listing
+router.get("/:id/applicants", async (req, res) => {
+    try {
+        const listingId = req.params.id;
+
+        // Find all bookings for the listing and populate applicant details
+        const bookings = await Booked.find({ listing: listingId })
+            .populate("applicant") // Populate applicant details from the User model
+            .populate("listing"); // Optional: Populate listing details for context
+
+        if (!bookings.length) {
+            req.flash("error", "No applicants found for this listing.");
+            return res.redirect("/listings/admin");
+        }
+
+        res.render("admin/applicants.ejs", { bookings });
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Failed to load applicants.");
+        res.redirect("/listings/admin");
+    }
+});
+
+// Update Booking Status
+router.post("/bookings/:id/status", async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    try {
+        // Update the booking status
+        const booking = await Booked.findByIdAndUpdate(id, { status }, { new: true });
+
+        if (!booking) {
+            req.flash("error", "Booking not found.");
+            return res.redirect("/listings/admin");
+        }
+
+        req.flash("success", `Booking status updated`);
+        res.redirect(`/listings/${booking.listing}/applicants`);
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Failed to update booking status.");
+        res.redirect("/listings/admin");
+    }
+});
+
+
 
 // Show Route (for a single listing)
 router.get("/:id", async (req, res) => {
@@ -40,8 +109,15 @@ router.get("/:id", async (req, res) => {
             path: "reviews",
             populate: { path: "author" },
         })
-        .populate("owner");
+        .populate("owner")
+        .populate({
+            path: "bookedBy", // Populate bookedBy array
+            populate: { path: "applicant" }, // Populate the applicant within bookedBy
+        });
 
+        console.log(listing);
+        // const booking = await Booked.find().populate("applicant");
+        // console.log(booking);
     res.render("listings/show.ejs", { listing });
 });
 
@@ -68,7 +144,7 @@ router.post("/", isLoggedIn, upload.array("image", 10), async (req, res) => {
 
     await newListing.save();
     req.flash("success", "New Listing Created!");
-    res.redirect("/listings");
+    res.redirect("/listings/admin");
 });
 
 // Edit Listing Route
@@ -131,26 +207,45 @@ router.post("/:id/delete", isLoggedIn, async (req, res) => {
 });
 
 // Booking Route (for booking a listing)
+// const Booked = require('../models/booked'); // Import the Booked model
+
+// Booking Route (for booking a listing)
 router.post("/:id/book", isLoggedIn, async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.id);
 
-        if (listing.booked) {
-            req.flash("error", "Property already booked.");
+        // Check if the user has already booked this listing
+        const existingBooking = await Booked.findOne({
+            listing: listing._id,
+            applicant: req.user._id,
+        });
+
+        if (existingBooking) {
+            req.flash("error", "You have already applied to book this property.");
             return res.redirect(`/listings/${listing._id}`);
         }
 
-        listing.booked = true;
-        listing.bookedBy = req.user._id;
+        // Create a new booking
+        const newBooking = new Booked({
+            listing: listing._id,
+            applicant: req.user._id,
+        });
+
+        await newBooking.save();
+
+        // Push the new booking's ID to the `bookedBy` array in the Listing schema
+        listing.bookedBy.push(newBooking._id);
         await listing.save();
 
-        req.flash("success", "Property successfully booked.");
+        req.flash("success", "Property booking pending.");
         res.redirect(`/listings/${listing._id}`);
     } catch (error) {
         console.error("Error booking the listing:", error);
+        req.flash("error", "Something went wrong while booking the property.");
         res.redirect(`/listings/${req.params.id}`);
     }
 });
+
 
 router.get("/:id/book", isLoggedIn, async (req, res) => {
     try {
@@ -167,6 +262,8 @@ router.get("/:id/book", isLoggedIn, async (req, res) => {
         res.redirect(`/listings/${req.params.id}`);
     }
 });
+
+
 
 module.exports = router;
 

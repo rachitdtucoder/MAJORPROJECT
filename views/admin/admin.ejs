@@ -1,0 +1,50 @@
+<% layout("layouts/boilerplate") %>
+<body>
+    <div class="container mt-5">
+        <!-- Airbnb Your Home Link -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Admin Dashboard</h2>
+            <a class="btn btn-primary" href="/listings/new/add">Airbnb your home</a>
+        </div>
+
+        <!-- Listings Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Country</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (listings.length > 0) { %>
+                        <% listings.forEach((listing, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= listing.title %></td>
+                                <td><%= listing.description %></td>
+                                <td>&#8377;<%= listing.price %></td>
+                                <td><%= listing.category %></td>
+                                <td><%= listing.country %></td>
+                                <td><%= listing.location %></td>
+                                <td>
+                                    <a href="/listings/<%= listing._id %>/applicants" class="btn btn-info btn-sm">View Applicants</a>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="8" class="text-center">No listings available.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>

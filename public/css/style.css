@@ -153,5 +153,8 @@ align-items: center;
 .tax-toggle:hover{
 border: 1px solid black;
 }
+form .mb-3 div {
+    margin-bottom: 10px;
+}
 
 
